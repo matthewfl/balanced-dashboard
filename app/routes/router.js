@@ -1,6 +1,13 @@
 Balanced.Route = Ember.Route.extend({
 });
 
+Balanced.Router = Ember.Router.extend({
+    didTransition: function(info) {
+	Balanced.Analytics && _.defer(Balanced.Analytics.trackPage, _.pluck(info, 'name').join('/'));
+	return this._super.apply(this, arguments);
+    }
+});
+
 Balanced.Router.reopenClass({
     defaultFailureHandler: {
         setup: function (error) {
